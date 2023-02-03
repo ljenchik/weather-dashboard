@@ -1,0 +1,22 @@
+body {
+    background-color: rgba(221, 232, 238, 0.482);
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#form-heading {
+    font-size: 24px;
+}
+
+.input-group-append {
+    display: flex;
+    flex-direction: column;
+}
+
+.city-button {
+    border-radius: 5px;
+}
