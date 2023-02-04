@@ -20,3 +20,20 @@ body {
 .city-button {
     border-radius: 5px;
 }
+
+.city-name {
+    font-size: 30px;
+}
+
+.today {
+    margin: 20px;
+    border: 3px solid black;
+    background-color: rgba(222, 226, 229, 0.579);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 10px;
+}
+
+h3, p, img {
+    display: inline;
+}
