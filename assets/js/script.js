@@ -18,6 +18,7 @@ searchButton.on("click", function(event) {
     listOfCities.append(cityButton);
     cityName = city;
     inputEl.val("");
+    currentWeatherEl.empty();
   }
 
   $.ajax({
@@ -33,9 +34,12 @@ searchButton.on("click", function(event) {
       method: "GET",
     }).then(function(response) {
       console.log(response);
-      currentWeatherEl.append(cityName);
+      
+      let iconEl = $("<img>").attr('src', `http://openweathermap.org/img/w/${response.list[0].weather[0].icon}.png`);
+      
+      currentWeatherEl.append(cityName + ",  ");
       currentWeatherEl.append(moment().format("LL"));
-      currentWeatherEl.append(response.list[0].weather[0].icon);
+      currentWeatherEl.append(iconEl);
     });
   });
 });
