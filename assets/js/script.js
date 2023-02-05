@@ -5,7 +5,6 @@ let inputEl = $("#search-input");
 let currentWeatherEl = $("#today");
 let cityName;
 let weatherCardsContainer = $("#weather-cards-container");
-let cityButton = $(".city-button");
 
 searchButton.on("click", function (event) {
   event.preventDefault();
@@ -31,6 +30,10 @@ function displayWeather(cityName) {
     ).done(function (response1, response2) {
       let dayResponse = response1[0];
       forecastResponse = response2[0].list;
+
+      currentWeatherEl.empty();
+      inputEl.empty();
+      weatherCardsContainer.empty();
 
       // Display current weather
       currentWeatherEl.addClass("today");
@@ -129,21 +132,22 @@ function handleCityInput() {
   if (city && !cities.includes(city)) {
     cities.push(city);
     localStorage.setItem("storedCities", JSON.stringify(cities));
+
     let cityButton = $("<button>")
       .text(city)
       .addClass("city-button my-2 btn btn-secondary")
       .attr("id", `${city}`);
     listOfCities.append(cityButton);
-    cityName = city;
 
-    cityButton.on("click", function () {
-      
-      inputEl.val("");
-      currentWeatherEl.empty();
-      weatherCardsContainer.empty();
+    cityName = city;
+    inputEl.val("");
+
+    cityButton.on("click", function (event) {
+      event.preventDefault();
       cityName = cityButton.attr("id");
       displayWeather(cityName);
     });
+
   } else {
     alert("Please, enter city");
   }
@@ -153,22 +157,29 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-// city validation
-// local storage
-// disable search button
-
-
 function getStoredCitiesAndDisplay() {
   if (JSON.parse(localStorage.getItem("storedCities")) !== null) {
     cities = JSON.parse(localStorage.getItem("storedCities"));
   }
-  cities.forEach(function(city) {
+  cities.forEach(function (city) {
     let cityButton = $("<button>")
       .text(city)
       .addClass("city-button my-2 btn btn-secondary")
       .attr("id", `${city}`);
-      listOfCities.append(cityButton);
-  })
+    listOfCities.append(cityButton);
+
+    cityButton.on("click", function (event) {
+      event.preventDefault();
+      cityName = cityButton.attr("id");
+      displayWeather(cityName);
+    });
+  });
 }
 
 getStoredCitiesAndDisplay();
+
+// city validation
+// disable search button
+// refactor code
+// readme
+// screenshots
