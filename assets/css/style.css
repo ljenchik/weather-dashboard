@@ -36,7 +36,7 @@ h3, p, img {
     display: inline;
 }
 
-.weather-cards {
+.weather-cards-container {
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -45,4 +45,9 @@ h3, p, img {
 .card-container {
     display: flex;
     flex-direction: column;
+    background-color: rgba(49, 137, 152, 0.221);
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
 }
