@@ -4,6 +4,7 @@ let listOfCities = $(".input-group-append");
 let inputEl = $("#search-input");
 let currentWeatherEl = $("#today");
 let cityName;
+let weatherCardsContainer = $("#weather-cards-container");
 
 
 searchButton.on("click", function (event) {
@@ -20,7 +21,7 @@ searchButton.on("click", function (event) {
     cityName = city;
     inputEl.val("");
     currentWeatherEl.empty();
-    //forecastEl.empty();
+    weatherCardsContainer.empty();
   } else {
     alert("Please, enter city");
   }
@@ -72,64 +73,66 @@ searchButton.on("click", function (event) {
       );
 
       // Display forecast
-      let weatherCardsContainer = $("#weather-cards-container");
+      for (let i = 1; i < 6; i++) {
+        weatherCard(i);
+      }
       
-      // Day1
-      const day1 = (element) => moment(element.dt_txt).format("YYYY-MM-DD") === moment().add(1, 'days').format("YYYY-MM-DD");
-      let index = forecastResponse.findIndex(day1);
-      // To display data at 12:00 
-      index += 4;
-      let dateCardEl = $("<h5>").text(
-        moment("2023-02-06 00:00:00").format("DD/MM/YYYY")
-      );
+      // // Day1
+      // const day1 = (element) => moment(element.dt_txt).format("YYYY-MM-DD") === moment().add(1, 'days').format("YYYY-MM-DD");
+      // let index = forecastResponse.findIndex(day1);
+      // // To display data at 12:00 
+      // index += 4;
+      // let dateCardEl = $("<h5>").text(
+      //   moment("2023-02-06 00:00:00").format("DD/MM/YYYY")
+      // );
 
-      let iconCardEl = $("<div>").append($("<img>").attr(
-        "src",
-        `http://openweathermap.org/img/w/${forecastResponse[index].weather[0].icon}.png`
-      ));
-      let tempCardEl = $("<p>").text("Temperature: " + 
-        Math.round(forecastResponse[index].main.temp)  + "ºC"
-      );
-      let windCardEl = $("<p>").text("Wind: " + forecastResponse[index].wind.speed.toFixed(1) + " m/s");
-      let humidityCardEl = $("<p>").text("Humidity: " + forecastResponse[index].main.humidity + "%");
+      // let iconCardEl = $("<div>").append($("<img>").attr(
+      //   "src",
+      //   `http://openweathermap.org/img/w/${forecastResponse[index].weather[0].icon}.png`
+      // ));
+      // let tempCardEl = $("<p>").text("Temperature: " + 
+      //   Math.round(forecastResponse[index].main.temp)  + "ºC"
+      // );
+      // let windCardEl = $("<p>").text("Wind: " + forecastResponse[index].wind.speed.toFixed(1) + " m/s");
+      // let humidityCardEl = $("<p>").text("Humidity: " + forecastResponse[index].main.humidity + "%");
 
-      let cardBody1 = $("<div>");
-      cardBody1.append(dateCardEl);
-      cardBody1.append(iconCardEl);
-      cardBody1.append(tempCardEl);
-      cardBody1.append(windCardEl);
-      cardBody1.append(humidityCardEl);
-      cardBody1.addClass("card-container");
-      weatherCardsContainer.append(cardBody1);
+      // let cardBody1 = $("<div>");
+      // cardBody1.append(dateCardEl);
+      // cardBody1.append(iconCardEl);
+      // cardBody1.append(tempCardEl);
+      // cardBody1.append(windCardEl);
+      // cardBody1.append(humidityCardEl);
+      // cardBody1.addClass("card-container");
+      // weatherCardsContainer.append(cardBody1);
 
      
-     // Day2
-     const day2 = (element) => moment(element.dt_txt).format("YYYY-MM-DD") === moment().add(2, 'days').format("YYYY-MM-DD");
-     let index2 = forecastResponse.findIndex(day2);
-     // To display data at 12:00 
-     index2 += 4;
-     let dateCardEl2 = $("<h5>").text(
-       moment("2023-02-07 00:00:00").format("DD/MM/YYYY")
-     );
+    //  // Day2
+    //  const day2 = (element) => moment(element.dt_txt).format("YYYY-MM-DD") === moment().add(2, 'days').format("YYYY-MM-DD");
+    //  let index2 = forecastResponse.findIndex(day2);
+    //  // To display data at 12:00 
+    //  index2 += 4;
+    //  let dateCardEl2 = $("<h5>").text(
+    //    moment("2023-02-07 00:00:00").format("DD/MM/YYYY")
+    //  );
 
-     let iconCardEl2 = $("<div>").append($("<img>").attr(
-       "src",
-       `http://openweathermap.org/img/w/${forecastResponse[index2].weather[0].icon}.png`
-     ));
-     let tempCardEl2 = $("<p>").text("Temperature: " + 
-       Math.round(forecastResponse[index].main.temp)  + "ºC"
-     );
-     let windCardEl2 = $("<p>").text("Wind: " + forecastResponse[index2].wind.speed.toFixed(1) + " m/s");
-     let humidityCardEl2= $("<p>").text("Humidity: " + forecastResponse[index2].main.humidity + "%");
+    //  let iconCardEl2 = $("<div>").append($("<img>").attr(
+    //    "src",
+    //    `http://openweathermap.org/img/w/${forecastResponse[index2].weather[0].icon}.png`
+    //  ));
+    //  let tempCardEl2 = $("<p>").text("Temperature: " + 
+    //    Math.round(forecastResponse[index].main.temp)  + "ºC"
+    //  );
+    //  let windCardEl2 = $("<p>").text("Wind: " + forecastResponse[index2].wind.speed.toFixed(1) + " m/s");
+    //  let humidityCardEl2= $("<p>").text("Humidity: " + forecastResponse[index2].main.humidity + "%");
 
-     let cardBody2 = $("<div>");
-     cardBody2.append(dateCardEl2);
-     cardBody2.append(iconCardEl2);
-     cardBody2.append(tempCardEl2);
-     cardBody2.append(windCardEl2);
-     cardBody2.append(humidityCardEl2);
-     cardBody2.addClass("card-container");
-     weatherCardsContainer.append(cardBody2);
+    //  let cardBody2 = $("<div>");
+    //  cardBody2.append(dateCardEl2);
+    //  cardBody2.append(iconCardEl2);
+    //  cardBody2.append(tempCardEl2);
+    //  cardBody2.append(windCardEl2);
+    //  cardBody2.append(humidityCardEl2);
+    //  cardBody2.addClass("card-container");
+    //  weatherCardsContainer.append(cardBody2);
       
     });
   });
@@ -162,4 +165,35 @@ function buildForecastQueryURL(lat, lon) {
   return forecastQueryURL + $.param(forecastQueryParams);
 }
 
+function weatherCard(n) {
+  let futureDate = moment().add(`${n}`, 'days').format("YYYY-MM-DD");
+  const day = (element) => moment(element.dt_txt).format("YYYY-MM-DD") === futureDate;
+  let index = forecastResponse.findIndex(day);
+  // To display data at 12:00 
+  index += 4;
+  let dateCardEl = $("<h5>").text(
+    moment(futureDate).format("DD/MM/YYYY")
+  );
+  
+  let iconCardEl = $("<div>").append($("<img>").attr(
+    "src",
+    `http://openweathermap.org/img/w/${forecastResponse[index].weather[0].icon}.png`
+  ));
+  let tempCardEl = $("<p>").text("Temperature: " + 
+    Math.round(forecastResponse[index].main.temp)  + "ºC"
+  );
+  let windCardEl = $("<p>").text("Wind: " + forecastResponse[index].wind.speed.toFixed(1) + " m/s");
+  let humidityCardEl= $("<p>").text("Humidity: " + forecastResponse[index].main.humidity + "%");
+  
+  let cardBody = $("<div>");
+  cardBody.append(dateCardEl);
+  cardBody.append(iconCardEl);
+  cardBody.append(tempCardEl);
+  cardBody.append(windCardEl);
+  cardBody.append(humidityCardEl);
+  cardBody.addClass("card-container");
+  weatherCardsContainer.append(cardBody);
+}
+
+ 
 // city validation

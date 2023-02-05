@@ -39,7 +39,7 @@ h3, p, img {
 .weather-cards-container {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    justify-content: space-between;
 }
 
 .card-container {
