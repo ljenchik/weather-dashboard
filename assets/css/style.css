@@ -35,3 +35,14 @@ body {
 h3, p, img {
     display: inline;
 }
+
+.weather-cards {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+}
