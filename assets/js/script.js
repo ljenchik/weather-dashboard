@@ -5,47 +5,31 @@ let inputEl = $("#search-input");
 let currentWeatherEl = $("#today");
 let cityName;
 let weatherCardsContainer = $("#weather-cards-container");
-
+let cityButton = $(".city-button");
 
 searchButton.on("click", function (event) {
   event.preventDefault();
+  handleCityInput();
+  displayWeather(cityName);
+});
 
-  let city = inputEl.val().trim();
-  if (city && !cities.includes(city)) {
-    cities.push(city);
-    let cityButton = $("<button>")
-      .text(city)
-      .addClass("city-button my-2 btn btn-secondary")
-      .attr("id", "cityButton");
-    listOfCities.append(cityButton);
-    cityName = city;
-    inputEl.val("");
-    currentWeatherEl.empty();
-    weatherCardsContainer.empty();
-  } else {
-    alert("Please, enter city");
-  }
-
+function displayWeather(cityName) {
   // Location query to get latitude and longitude
   $.ajax({
-    url: buildLocationQueryURL(city),
+    url: buildLocationQueryURL(cityName),
     method: "GET",
   }).then(function (response) {
     let lat = response[0].lat;
     let lon = response[0].lon;
     buildWeathertQueryURL(lat, lon);
-    console.log(buildWeathertQueryURL(lat, lon));
     buildForecastQueryURL(lat, lon);
-    console.log(buildForecastQueryURL(lat, lon));
 
+    // Current weather query and 5-day forecast query
     $.when(
       $.ajax(buildWeathertQueryURL(lat, lon)),
       $.ajax(buildForecastQueryURL(lat, lon))
     ).done(function (response1, response2) {
-      console.log(response1[0]);
-      console.log(response2[0].list);
-
-      dayResponse = response1[0];
+      let dayResponse = response1[0];
       forecastResponse = response2[0].list;
 
       // Display current weather
@@ -72,73 +56,13 @@ searchButton.on("click", function (event) {
         $("<div>").text("Humidity: " + dayResponse.main.humidity + "%")
       );
 
-      // Display forecast
+      // Display forecast cards
       for (let i = 1; i < 6; i++) {
         weatherCard(i);
       }
-      
-      // // Day1
-      // const day1 = (element) => moment(element.dt_txt).format("YYYY-MM-DD") === moment().add(1, 'days').format("YYYY-MM-DD");
-      // let index = forecastResponse.findIndex(day1);
-      // // To display data at 12:00 
-      // index += 4;
-      // let dateCardEl = $("<h5>").text(
-      //   moment("2023-02-06 00:00:00").format("DD/MM/YYYY")
-      // );
-
-      // let iconCardEl = $("<div>").append($("<img>").attr(
-      //   "src",
-      //   `http://openweathermap.org/img/w/${forecastResponse[index].weather[0].icon}.png`
-      // ));
-      // let tempCardEl = $("<p>").text("Temperature: " + 
-      //   Math.round(forecastResponse[index].main.temp)  + "ºC"
-      // );
-      // let windCardEl = $("<p>").text("Wind: " + forecastResponse[index].wind.speed.toFixed(1) + " m/s");
-      // let humidityCardEl = $("<p>").text("Humidity: " + forecastResponse[index].main.humidity + "%");
-
-      // let cardBody1 = $("<div>");
-      // cardBody1.append(dateCardEl);
-      // cardBody1.append(iconCardEl);
-      // cardBody1.append(tempCardEl);
-      // cardBody1.append(windCardEl);
-      // cardBody1.append(humidityCardEl);
-      // cardBody1.addClass("card-container");
-      // weatherCardsContainer.append(cardBody1);
-
-     
-    //  // Day2
-    //  const day2 = (element) => moment(element.dt_txt).format("YYYY-MM-DD") === moment().add(2, 'days').format("YYYY-MM-DD");
-    //  let index2 = forecastResponse.findIndex(day2);
-    //  // To display data at 12:00 
-    //  index2 += 4;
-    //  let dateCardEl2 = $("<h5>").text(
-    //    moment("2023-02-07 00:00:00").format("DD/MM/YYYY")
-    //  );
-
-    //  let iconCardEl2 = $("<div>").append($("<img>").attr(
-    //    "src",
-    //    `http://openweathermap.org/img/w/${forecastResponse[index2].weather[0].icon}.png`
-    //  ));
-    //  let tempCardEl2 = $("<p>").text("Temperature: " + 
-    //    Math.round(forecastResponse[index].main.temp)  + "ºC"
-    //  );
-    //  let windCardEl2 = $("<p>").text("Wind: " + forecastResponse[index2].wind.speed.toFixed(1) + " m/s");
-    //  let humidityCardEl2= $("<p>").text("Humidity: " + forecastResponse[index2].main.humidity + "%");
-
-    //  let cardBody2 = $("<div>");
-    //  cardBody2.append(dateCardEl2);
-    //  cardBody2.append(iconCardEl2);
-    //  cardBody2.append(tempCardEl2);
-    //  cardBody2.append(windCardEl2);
-    //  cardBody2.append(humidityCardEl2);
-    //  cardBody2.addClass("card-container");
-    //  weatherCardsContainer.append(cardBody2);
-      
     });
   });
-});
-
-
+}
 
 function buildLocationQueryURL(city) {
   let locationQueryURL = "http://api.openweathermap.org/geo/1.0/direct?";
@@ -166,25 +90,30 @@ function buildForecastQueryURL(lat, lon) {
 }
 
 function weatherCard(n) {
-  let futureDate = moment().add(`${n}`, 'days').format("YYYY-MM-DD");
-  const day = (element) => moment(element.dt_txt).format("YYYY-MM-DD") === futureDate;
+  let futureDate = moment().add(`${n}`, "days").format("YYYY-MM-DD");
+  const day = (element) =>
+    moment(element.dt_txt).format("YYYY-MM-DD") === futureDate;
   let index = forecastResponse.findIndex(day);
-  // To display data at 12:00 
+  // To display data at 12:00
   index += 4;
-  let dateCardEl = $("<h5>").text(
-    moment(futureDate).format("DD/MM/YYYY")
+  let dateCardEl = $("<h5>").text(moment(futureDate).format("DD/MM/YYYY"));
+
+  let iconCardEl = $("<div>").append(
+    $("<img>").attr(
+      "src",
+      `http://openweathermap.org/img/w/${forecastResponse[index].weather[0].icon}.png`
+    )
   );
-  
-  let iconCardEl = $("<div>").append($("<img>").attr(
-    "src",
-    `http://openweathermap.org/img/w/${forecastResponse[index].weather[0].icon}.png`
-  ));
-  let tempCardEl = $("<p>").text("Temperature: " + 
-    Math.round(forecastResponse[index].main.temp)  + "ºC"
+  let tempCardEl = $("<p>").text(
+    "Temperature: " + Math.round(forecastResponse[index].main.temp) + "ºC"
   );
-  let windCardEl = $("<p>").text("Wind: " + forecastResponse[index].wind.speed.toFixed(1) + " m/s");
-  let humidityCardEl= $("<p>").text("Humidity: " + forecastResponse[index].main.humidity + "%");
-  
+  let windCardEl = $("<p>").text(
+    "Wind: " + forecastResponse[index].wind.speed.toFixed(1) + " m/s"
+  );
+  let humidityCardEl = $("<p>").text(
+    "Humidity: " + forecastResponse[index].main.humidity + "%"
+  );
+
   let cardBody = $("<div>");
   cardBody.append(dateCardEl);
   cardBody.append(iconCardEl);
@@ -195,5 +124,51 @@ function weatherCard(n) {
   weatherCardsContainer.append(cardBody);
 }
 
- 
+function handleCityInput() {
+  let city = capitalizeFirstLetter(inputEl.val().trim());
+  if (city && !cities.includes(city)) {
+    cities.push(city);
+    localStorage.setItem("storedCities", JSON.stringify(cities));
+    let cityButton = $("<button>")
+      .text(city)
+      .addClass("city-button my-2 btn btn-secondary")
+      .attr("id", `${city}`);
+    listOfCities.append(cityButton);
+    cityName = city;
+
+    cityButton.on("click", function () {
+      
+      inputEl.val("");
+      currentWeatherEl.empty();
+      weatherCardsContainer.empty();
+      cityName = cityButton.attr("id");
+      displayWeather(cityName);
+    });
+  } else {
+    alert("Please, enter city");
+  }
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 // city validation
+// local storage
+// disable search button
+
+
+function getStoredCitiesAndDisplay() {
+  if (JSON.parse(localStorage.getItem("storedCities")) !== null) {
+    cities = JSON.parse(localStorage.getItem("storedCities"));
+  }
+  cities.forEach(function(city) {
+    let cityButton = $("<button>")
+      .text(city)
+      .addClass("city-button my-2 btn btn-secondary")
+      .attr("id", `${city}`);
+      listOfCities.append(cityButton);
+  })
+}
+
+getStoredCitiesAndDisplay();
