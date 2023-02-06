@@ -45,7 +45,7 @@ function displayWeather(cityName) {
 
         let iconEl = $("<img>").attr(
           "src",
-          `http://openweathermap.org/img/w/${dayResponse.weather[0].icon}.png`
+          `https://openweathermap.org/img/w/${dayResponse.weather[0].icon}.png`
         );
         currentWeatherEl.append(cityNameEl);
         currentWeatherEl.append(dateEl);
@@ -105,7 +105,7 @@ function weatherCard(n, data) {
   let dateCardEl = $("<h5>").text(moment(futureDate).format("DD/MM/YYYY"));
 
   let iconCardEl = $("<img>").attr("src",
-  `http://openweathermap.org/img/w/${data[index].weather[0].icon}.png`);
+  `https://openweathermap.org/img/w/${data[index].weather[0].icon}.png`);
 
   let cardBody = $("<div>");
   cardBody.append(dateCardEl).addClass('cardbody');
@@ -156,7 +156,7 @@ function createCityButton(city) {
 
 // Query buiders
 function buildLocationQueryURL(city) {
-  let locationQueryURL = "http://api.openweathermap.org/geo/1.0/direct?";
+  let locationQueryURL = "https://api.openweathermap.org/geo/1.0/direct?";
   let locationQueryParams = { appid: "61ba8177c893a48d024315792d0535ca" };
   locationQueryParams.q = city;
   locationQueryParams.mode = "json";
