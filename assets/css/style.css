@@ -43,8 +43,8 @@ h3, p, img {
 
 .weather-cards-container {
     display: flex;
+    gap: 5px;
     flex-direction: row;
-    justify-content: space-between;
 }
 
 .card-container {
@@ -54,4 +54,38 @@ h3, p, img {
     padding: 20px 10px;
     border: 2px solid black;
     border-radius: 10px;
+    width: 100%;
+}
+
+.iconAndTemps {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+    margin: 20px 0px;
+}
+
+
+
+.temps {
+    display: flex;
+    flex-direction: column;
+}
+
+.cardbody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.city-button {
+    background-color: #50adcae5 !important;
+}
+
+.city-button:hover {
+    box-shadow: 10px 10px 12px 0 rgba(0,0,0,0.24);
+}
+
+#search-input {
+    border-radius: 5px;
 }

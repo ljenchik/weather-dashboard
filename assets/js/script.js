@@ -28,15 +28,15 @@ function displayWeather(cityName) {
         $.ajax(buildWeathertQueryURL(lat, lon)),
         $.ajax(buildForecastQueryURL(lat, lon))
       ).done(function (response1, response2) {
-        isValidCityInput = true;
+        
         let dayResponse = response1[0];
-        forecastResponse = response2[0].list;
+        let forecastResponse = response2[0].list;
 
         currentWeatherEl.empty();
         inputEl.val("");
         weatherCardsContainer.empty();
 
-        // Display current weather
+        // Displays current weather
         currentWeatherEl.addClass("today");
 
         let cityNameEl = $("<h3>").addClass("city-name").text(`${cityName}`);
@@ -63,9 +63,9 @@ function displayWeather(cityName) {
           $("<div>").text("Humidity: " + dayResponse.main.humidity + "%")
         );
 
-        // Display forecast cards
+        // Displays forecast cards
         for (let i = 1; i < 6; i++) {
-          weatherCard(i);
+          weatherCard(i, forecastResponse);
         }
 
         // Adds new valid city to the local storage
@@ -82,54 +82,64 @@ function displayWeather(cityName) {
   });
 }
 
-
-function weatherCard(n) {
+// Displays weather forecast card for one day out of five
+function weatherCard(n, data) {
   let futureDate = moment().add(`${n}`, "days").format("YYYY-MM-DD");
   const day = (element) =>
     moment(element.dt_txt).format("YYYY-MM-DD") === futureDate;
-  let index = forecastResponse.findIndex(day);
+  let index = data.findIndex(day);
   // To display data at 6:00am
   index += 2;
 
+  let dayTemperaturesArray = [];
+  for (let i = index; i < index + 8; i++) {
+    if (data[i]) {
+      dayTemperaturesArray.push(data[i].main.temp);
+    }
+  }
+
+  // To dispaly max and min temp during the day
+  let maxTemp = Math.round(Math.max(...dayTemperaturesArray));
+  let minTemp = Math.round(Math.min(...dayTemperaturesArray));
+
   let dateCardEl = $("<h5>").text(moment(futureDate).format("DD/MM/YYYY"));
-  let iconCardEl = $("<p>").append(
-    $("<img>").attr(
-      "src",
-      `http://openweathermap.org/img/w/${forecastResponse[index].weather[0].icon}.png`
-    )
-  );
+
+  let iconCardEl = $("<img>").attr("src",
+  `http://openweathermap.org/img/w/${data[index].weather[0].icon}.png`);
 
   let cardBody = $("<div>");
-  cardBody.append(dateCardEl);
-  cardBody.append(iconCardEl);
+  cardBody.append(dateCardEl).addClass('cardbody');
+
+  let iconAndTempsEl = $("<div>").addClass("iconAndTemps");
+  let temps = $("<div>").addClass("temps");
+
+    iconAndTempsEl.append(iconCardEl);
+    temps.append($("<strong>").text( maxTemp + "º"));
+    temps.append($("<p>").text(minTemp + "º"));
+
+  iconAndTempsEl.append(temps);
+
+  cardBody.append(iconAndTempsEl);
+
 
   cardBody.append(
-    $("<p>").text(
-      "Temperature: " + Math.round(forecastResponse[index].main.temp) + "ºC"
-    )
-  );
-  cardBody.append(
-    $("<p>").text(
-      "Wind: " + forecastResponse[index].wind.speed.toFixed(1) + " m/s"
-    )
+    $("<p>").text("Wind: " + data[index].wind.speed.toFixed(1) + " m/s")
   );
 
   cardBody
-    .append(
-      $("<p>").text("Humidity: " + forecastResponse[index].main.humidity + "%")
-    )
+    .append($("<p>").text("Humidity: " + data[index].main.humidity + "%"))
     .addClass("card-container");
   weatherCardsContainer.append(cardBody);
 }
 
-// Read the city name from the input field
+// Reads the city name from the input field
 function readCityInput() {
   let cityInput = inputEl.val().trim();
   // Capitalize the city name
   return cityInput.charAt(0).toUpperCase() + cityInput.slice(1);
 }
 
-// Create city button with event listener
+// Creates city button with event listener
 function createCityButton(city) {
   cityButton = $("<button>")
     .text(city)
@@ -143,7 +153,6 @@ function createCityButton(city) {
     displayWeather(city);
   });
 }
-
 
 // Query buiders
 function buildLocationQueryURL(city) {
@@ -191,6 +200,3 @@ function saveToLocalStorage(city, cities) {
   cities.push(city);
   localStorage.setItem("storedCities", JSON.stringify(cities));
 }
-
-
-
