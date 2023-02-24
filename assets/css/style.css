@@ -44,7 +44,7 @@ h3, p, img {
 .weather-cards-container {
     display: flex;
     gap: 5px;
-    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .card-container {
@@ -54,7 +54,6 @@ h3, p, img {
     padding: 20px 10px;
     border: 2px solid black;
     border-radius: 10px;
-    width: 100%;
 }
 
 .iconAndTemps {
@@ -65,8 +64,6 @@ h3, p, img {
     margin: 20px 0px;
 }
 
-
-
 .temps {
     display: flex;
     flex-direction: column;
@@ -76,6 +73,7 @@ h3, p, img {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 200px;
 }
 
 .city-button {
