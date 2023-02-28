@@ -1,5 +1,12 @@
 body {
-    background-color: rgba(221, 232, 238, 0.482);
+    /* background-color: rgba(221, 232, 238, 0.482); */
+    background-image: url(../../weather.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.weather-header {
+    margin-top: 20px;
 }
 
 .input-group {
@@ -32,7 +39,7 @@ body {
 
 .today, .forecast{
     border: 2px solid black;
-    background-color: rgba(49, 137, 152, 0.087);
+    background-color: rgba(236, 242, 243, 0.761);
     border-radius: 15px;
     padding: 20px;
 }
@@ -41,16 +48,22 @@ h3, p, img {
     display: inline;
 }
 
+#forecast {
+    width: 100%;
+}
+
 .weather-cards-container {
     display: flex;
-    gap: 5px;
     flex-wrap: wrap;
+    justify-content: center;
+    padding: 0px;
+    gap: 10px;
 }
 
 .card-container {
     display: flex;
     flex-direction: column;
-    background-color: rgba(49, 137, 152, 0.087);
+    background-color: rgba(236, 242, 243, 0.761);
     padding: 20px 10px;
     border: 2px solid black;
     border-radius: 10px;
@@ -73,11 +86,11 @@ h3, p, img {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 200px;
+    width: 190px;
 }
 
 .city-button {
-    background-color: #50adcae5 !important;
+    background-color: rgba(28,15,69,255) !important;
 }
 
 .city-button:hover {
